@@ -33,6 +33,24 @@ function linares_tratamiento_create_post_type() {
 	register_post_type( 'tratamiento', $args );
 }
 
+
+//Columnas ------------------------------------------------
+function linares_tratamiento_set_custom_edit_columns($columns) {
+	$columns['image'] = __( 'Imagen', 'the7mk2');
+	unset($columns['date']);
+	return $columns;
+}
+
+function linares_tratamiento_custom_column( $column ) {
+  global $post;
+  if ($column == 'image') {
+   echo "<img src='".get_the_post_thumbnail_url($post->ID)."' alt='' style='max-width: 150px;' />";
+  }
+}
+
+add_filter( 'manage_edit-tratamiento_columns', 'linares_tratamiento_set_custom_edit_columns' ); //Metemos columnas
+add_action( 'manage_tratamiento_posts_custom_column' , 'linares_tratamiento_custom_column', 'category' ); //Metemos columnas
+
 //Tipo -------------------------
 add_action( 'init', 'linares_tratamiento_create_type' );
 function linares_tratamiento_create_type() {
